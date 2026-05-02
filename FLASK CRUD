@@ -1,0 +1,25 @@
+from models import db, Post, Profile
+
+def create_post():
+    user = Profile(name="Test")
+    db.session.add(user)
+    db.session.commit()
+
+    post = Post(title="Post", content="Text", author=user)
+    db.session.add(post)
+    db.session.commit()
+
+
+def get_posts():
+    return Post.query.all()
+
+
+def update_post(post_id):
+    post = Post.query.get(post_id)
+    post.title = "Updated"
+    db.session.commit()
+
+
+def delete_post(post_id):
+    Post.query.filter_by(id=post_id).delete()
+    db.session.commit()
