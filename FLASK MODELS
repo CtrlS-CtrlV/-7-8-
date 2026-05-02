@@ -1,0 +1,35 @@
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+post_tag = db.Table(
+    "post_tag",
+    db.Column("post_id", db.Integer, db.ForeignKey("post.id")),
+    db.Column("tag_id", db.Integer, db.ForeignKey("tag.id"))
+)
+
+
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    content = db.Column(db.Text)
+
+    author_id = db.Column(db.Integer, db.ForeignKey("profile.id"))
+    author = db.relationship("Profile", backref="posts")
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text)
+
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))
+
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
