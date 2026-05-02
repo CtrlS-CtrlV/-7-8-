@@ -1,0 +1,7 @@
+from django.db.models import Q, Count
+from .models import Post
+
+def complex_query():
+    return Post.objects.filter(
+        Q(title__contains="Post") | Q(content__contains="Text")
+    ).annotate(comment_count=Count("comment"))
