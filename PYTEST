@@ -1,0 +1,12 @@
+import pytest
+from main.models import Profile
+
+@pytest.mark.django_db
+def test_profile_create():
+    p = Profile.objects.create(user_name="Test")
+    assert p.user_name == "Test"
+
+
+@pytest.mark.parametrize("name", ["A", "B", "C"])
+def test_names(name):
+    assert isinstance(name, str)
